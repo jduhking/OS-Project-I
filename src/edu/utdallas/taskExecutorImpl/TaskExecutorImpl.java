@@ -12,7 +12,8 @@ public class TaskExecutorImpl implements TaskExecutor
 
     public TaskExecutorImpl(int threadPoolSize)
     {
-        blockingFifo = new BlockingFifoQueueImpl(); // instantiate blocking fifo and runner pool
+    	int queueSize = threadPoolSize * 10;
+        blockingFifo = new BlockingFifoQueueImpl(queueSize); // instantiate blocking fifo and runner pool
         runnerPool = new TaskRunner[threadPoolSize];
         
         for(int i = 0; i < runnerPool.length; i++) { // initializing of task runner thread pool
@@ -25,9 +26,9 @@ public class TaskExecutorImpl implements TaskExecutor
     public void addTask(Task task)
     {
        synchronized(this) {
-       blockingFifo.put(task);
-       }
 
+    	   blockingFifo.put(task);
+       }
     }
     
 
