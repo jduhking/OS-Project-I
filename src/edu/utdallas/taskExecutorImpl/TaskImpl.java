@@ -2,11 +2,11 @@ package edu.utdallas.taskExecutorImpl;
 
 import edu.utdallas.taskExecutor.Task;
 
-public class MyTask implements Task
+public class TaskImpl implements Task
 {
 	private String name;
 
-	public MyTask(String name)
+	public TaskImpl(String name)
 	{
 		this.name = name;
 	}

@@ -1,5 +1,6 @@
 package edu.utdallas.taskExecutorImpl;
 
+import edu.utdallas.taskExecutor.BlockingQueue;
 import edu.utdallas.taskExecutor.Task;
 import edu.utdallas.taskExecutor.TaskExecutor;
 
@@ -10,20 +11,23 @@ import java.util.concurrent.Executors;
 public class TaskExecutorImpl implements TaskExecutor
 {
 
-    private final Queue<Task> blockingFIFO;
-    private ExecutorService executorService;
+    private final BlockingQueue blockingFifo;
+    
+    private TaskRunner[] runnerPool;
+
     public TaskExecutorImpl(int threadPoolSize)
     {
-        blockingFIFO = new LinkedList<>();
-        executorService = Executors.newFixedThreadPool(threadPoolSize);
+        blockingFifo = new BlockingQueueImpl();
+        runnerPool = new TaskRunner[threadPoolSize];
     }
 
     @Override
     public void addTask(Task task)
     {
 
-       blockingFIFO.add(task);
+       blockingFifo.put(task);
 
     }
+    
 
 }
