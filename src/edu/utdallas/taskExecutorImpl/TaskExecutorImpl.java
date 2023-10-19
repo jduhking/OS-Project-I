@@ -4,10 +4,6 @@ import edu.utdallas.taskExecutor.BlockingFifoQueue;
 import edu.utdallas.taskExecutor.Task;
 import edu.utdallas.taskExecutor.TaskExecutor;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 public class TaskExecutorImpl implements TaskExecutor
 {
 
@@ -17,8 +13,14 @@ public class TaskExecutorImpl implements TaskExecutor
 
     public TaskExecutorImpl(int threadPoolSize)
     {
-        blockingFifo = new BlockingFifoQueueImpl();
+        blockingFifo = new BlockingFifoQueueImpl(); // instantiate blocking fifo and runner pool
         runnerPool = new TaskRunner[threadPoolSize];
+        
+        for(int i = 0; i < runnerPool.length; i++) { // initializing of task runner thread pool
+        	TaskRunner taskRunner = runnerPool[i] = new TaskRunner(blockingFifo, i + 1);
+        	Thread thread = new Thread(taskRunner);
+        	thread.start(); // start the thread
+        }
     }
 
     @Override
