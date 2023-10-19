@@ -5,11 +5,11 @@ import edu.utdallas.taskExecutor.Task;
 
 public class TaskRunner implements Runnable {
 
-	private final BlockingFifoQueue blockingFifo;
+	private final BlockingFifoQueue blockingFifoQueue;
 	private final String name;
 	
 	public TaskRunner(BlockingFifoQueue fifo, String threadName) {
-		blockingFifo = fifo;
+		blockingFifoQueue = fifo;
 		name = threadName;
 	}
 	@Override
@@ -17,13 +17,7 @@ public class TaskRunner implements Runnable {
 		while(true) {
 			System.out.println("Executing on thread " + name);
             Task newTask = null;
-            try {
-                newTask = blockingFifoQueue.take();
-            }
-            catch(InterruptedException e) {
-        
-                System.out.println("Thread interrupted: " + e.getMessage());
-            }
+            newTask = blockingFifoQueue.take();
 
             if(newTask != null) {
                 try {
