@@ -24,22 +24,21 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 	@Override
 	public void put(Task newTask) {
 		// if waiting thread that has been notified has not executed, cant put
-    if(notifiedHasExecuted = 0)
+    if(notifiedHasExecuted = 1)
     {
-      notFull.wait();
-    }
-    :
-    // if buffer is full, wait for take
-    if(count == BUFFER_SIZE)
-    {
-      notFull.wait();
+      // if buffer is full, wait for take
+      if(count == BUFFER_SIZE)
+      {
+        notFull.wait();
+      }
+
       notifiedHasExecuted = 0; // signals thread notified still needs to execute
-    }
 
       // puts task at end of FIFO, increments nextIn and count
       buffer[nextIn] = task; 
       nextIn = (nextIn + 1) % BUFFER_SIZE;
       count++;
+
 
       notifiedHasExecuted = 1; // signals that notified thread has executed
       notEmpty.notify(); // signal waiting take threads
