@@ -6,16 +6,16 @@ import edu.utdallas.taskExecutor.Task;
 public class TaskRunner implements Runnable {
 
 	private final BlockingFifoQueue blockingFifo;
-	private final int id;
+	private final String name;
 	
-	public TaskRunner(BlockingFifoQueue fifo, int _id) {
+	public TaskRunner(BlockingFifoQueue fifo, String threadName) {
 		blockingFifo = fifo;
-		id = _id;
+		name = threadName;
 	}
 	@Override
 	public void run() {
 		while(true) {
-			System.out.println("Executing task runner " + id);
+			System.out.println("Executing on thread " + name);
 		}
 
 	}

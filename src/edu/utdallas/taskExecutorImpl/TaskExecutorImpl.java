@@ -8,7 +8,6 @@ public class TaskExecutorImpl implements TaskExecutor
 {
 
     private final BlockingFifoQueue blockingFifo;
-    
     private TaskRunner[] runnerPool;
 
     public TaskExecutorImpl(int threadPoolSize)
@@ -17,17 +16,17 @@ public class TaskExecutorImpl implements TaskExecutor
         runnerPool = new TaskRunner[threadPoolSize];
         
         for(int i = 0; i < runnerPool.length; i++) { // initializing of task runner thread pool
-        	TaskRunner taskRunner = runnerPool[i] = new TaskRunner(blockingFifo, i + 1);
+        	TaskRunner taskRunner = runnerPool[i] = new TaskRunner(blockingFifo, "TaskThread" + i + 1);
         	Thread thread = new Thread(taskRunner);
         	thread.start(); // start the thread
         }
     }
 
-    @Override
     public void addTask(Task task)
     {
-
+       synchronized(this) {
        blockingFifo.put(task);
+       }
 
     }
     
