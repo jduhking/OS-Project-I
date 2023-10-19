@@ -16,8 +16,25 @@ public class TaskRunner implements Runnable {
 	public void run() {
 		while(true) {
 			System.out.println("Executing on thread " + name);
-		}
+            Task newTask = null;
+            try {
+                newTask = blockingFifoQueue.take();
+            }
+            catch(InterruptedException e) {
+        
+                System.out.println("Thread interrupted: " + e.getMessage());
+            }
 
-	}
+            if(newTask != null) {
+                try {
+                    newTask.execute();
+                }
+                catch(Throwable th) {
+                    System.out.println("Task execution failed: " + th.getMessage());
+                }
+            }
+        }
+    }
 
 }
+		
