@@ -22,6 +22,8 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
     // if buffer is full, wait for take
     // for loop prevents a race condition as waiting thread must recheck
     // BUFFER_SIZE after notified by take()
+    // a sychronized block is not inculded as it is alread included in
+    // TaskExecutorImpl
     for(count == BUFFER_SIZE)
     {
       notFull.wait();
