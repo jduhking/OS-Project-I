@@ -1,6 +1,6 @@
 package edu.utdallas.taskExecutor;
 
-public interface BlockingQueue {
+public interface BlockingFifoQueue {
 	
 	public void put(Task newTask);
 	

@@ -1,6 +1,6 @@
 package edu.utdallas.taskExecutorImpl;
 
-import edu.utdallas.taskExecutor.BlockingQueue;
+import edu.utdallas.taskExecutor.BlockingFifoQueue;
 import edu.utdallas.taskExecutor.Task;
 import edu.utdallas.taskExecutor.TaskExecutor;
 
@@ -11,13 +11,13 @@ import java.util.concurrent.Executors;
 public class TaskExecutorImpl implements TaskExecutor
 {
 
-    private final BlockingQueue blockingFifo;
+    private final BlockingFifoQueue blockingFifo;
     
     private TaskRunner[] runnerPool;
 
     public TaskExecutorImpl(int threadPoolSize)
     {
-        blockingFifo = new BlockingQueueImpl();
+        blockingFifo = new BlockingFifoQueueImpl();
         runnerPool = new TaskRunner[threadPoolSize];
     }
 

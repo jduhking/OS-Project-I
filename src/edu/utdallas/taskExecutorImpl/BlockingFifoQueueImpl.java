@@ -1,11 +1,11 @@
 package edu.utdallas.taskExecutorImpl;
 
-import edu.utdallas.taskExecutor.BlockingQueue;
+import edu.utdallas.taskExecutor.BlockingFifoQueue;
 import edu.utdallas.taskExecutor.Task;
 
-public class BlockingQueueImpl implements BlockingQueue {
+public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 
-	public BlockingQueueImpl() {
+	public BlockingFifoQueueImpl() {
 		
 	}
 	
