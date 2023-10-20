@@ -12,6 +12,9 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
     private Object notFull, notEmpty; // locks used for synchronization
 
 	public BlockingFifoQueueImpl(int bufferSize) {
+		if(bufferSize >= 100) { // buffer size cannot exceed 100
+			bufferSize = 100;
+		}
 		BUFFER_SIZE = bufferSize;
 		buffer = new Task[BUFFER_SIZE];
 	}
