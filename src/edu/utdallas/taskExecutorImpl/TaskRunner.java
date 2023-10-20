@@ -19,8 +19,7 @@ public class TaskRunner implements Runnable {
             	try {
 					wait();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					return;
 				}
             }
             Task newTask = blockingFifo.take();
