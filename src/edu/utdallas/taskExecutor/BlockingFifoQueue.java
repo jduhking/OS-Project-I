@@ -6,4 +6,7 @@ public interface BlockingFifoQueue {
 	
 	public Task take();
 
+	public int GetCount();
+	
+	public int GetBufferSize();
 }

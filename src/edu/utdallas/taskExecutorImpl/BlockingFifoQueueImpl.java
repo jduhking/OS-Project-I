@@ -75,4 +75,8 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 	
 	    }
   }
+	
+	public int GetCount() { return count; }
+	public int GetBufferSize() { return BUFFER_SIZE; }
+	
 }
