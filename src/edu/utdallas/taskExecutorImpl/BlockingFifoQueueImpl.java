@@ -5,8 +5,8 @@ import edu.utdallas.taskExecutor.Task;
 
 public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 	
-	private int BUFFER_SIZE;
-	private Task[] buffer;
+	  private int BUFFER_SIZE;
+	  private Task[] buffer;
     private int nextIn, nextOut;
     private int count;
     private Object notFull = new Object(); // lock object used by thread attempting to put
