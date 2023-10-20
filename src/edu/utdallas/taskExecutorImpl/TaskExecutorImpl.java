@@ -17,7 +17,8 @@ public class TaskExecutorImpl implements TaskExecutor
         runnerPool = new TaskRunner[threadPoolSize];
         
         for(int i = 0; i < runnerPool.length; i++) { // initializing of task runner thread pool
-        	TaskRunner taskRunner = runnerPool[i] = new TaskRunner(blockingFifo, "TaskThread" + i + 1);
+        	TaskRunner taskRunner = new TaskRunner(blockingFifo, "TaskThread" + (i + 1));
+        	runnerPool[i] = taskRunner;
         	Thread thread = new Thread(taskRunner);
         	thread.start(); // start the thread
         }

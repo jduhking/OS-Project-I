@@ -7,9 +7,9 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 	
 	private int BUFFER_SIZE;
 	private Task[] buffer;
-  private int nextIn, nextOut;
-  private int count;
-  private Object notFull, notEmpty; // locks used for synchronization
+    private int nextIn, nextOut;
+    private int count;
+    private Object notFull, notEmpty; // locks used for synchronization
 
 	public BlockingFifoQueueImpl(int bufferSize) {
 		BUFFER_SIZE = bufferSize;
@@ -24,39 +24,55 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
     // BUFFER_SIZE after notified by take()
     // a sychronized block is not inculded as it is alread included in
     // TaskExecutorImpl
-    for(count == BUFFER_SIZE)
-    {
-      notFull.wait();
-    }
+	synchronized(this) {
+	    if(count == BUFFER_SIZE)
+	    {
+		      try {
+		    	  
+		    	while(count == BUFFER_SIZE)
+		    		wait();
+				
+				buffer[nextIn] = newTask; 
+			    nextIn = (nextIn + 1) % BUFFER_SIZE;
+			    count++;
+	
+			    	notify(); // signal waiting take threads
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	}
     
     // puts task at end of FIFO, increments nextIn and count
-    buffer[nextIn] = task; 
-    nextIn = (nextIn + 1) % BUFFER_SIZE;
-    count++;
-
-    notEmpty.notify(); // signal waiting take threads
+   
     }
-	}
+	
 
   // takes task from front of FIFO, returns the task
 	@Override
 	public Task take() {
     synchronized(this) { // only one thread can take at a time,
-                         // prevents race condition
-
-      // if buffer is empty, wait for put
-      if(count == 0)
-      {
-        notEmpty.wait();
-      }
-    
-      // sets return value for task, incremtns nextOut, decrements count 
-      Task result = buffer[nextOut];
-      nextOut = (nextOut + 1) % BUFFER_SIZE;
-      count --;
-
-      notFull.nofity(); // signal waiting put threads
-      return result;
-    }
+	                         // prevents race condition
+	      try {
+	      // if buffer is empty, wait for put
+		      while(count == 0)
+		      {
+		        wait();
+		      }
+		    
+		      // sets return value for task, incremtns nextOut, decrements count 
+		      Task result = buffer[nextOut];
+		      nextOut = (nextOut + 1) % BUFFER_SIZE;
+		      count --;
+	
+		      notify(); // signal waiting put threads
+		      return result;
+	      } catch(InterruptedException e) {
+	    	  e.printStackTrace();
+	      }
+	      return null;
+	
+	    }
   }
 }
