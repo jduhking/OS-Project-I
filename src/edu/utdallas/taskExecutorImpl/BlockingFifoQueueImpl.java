@@ -39,7 +39,7 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 			    	notify(); // signal waiting take threads
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				return;
 			}
 	    }
 	}

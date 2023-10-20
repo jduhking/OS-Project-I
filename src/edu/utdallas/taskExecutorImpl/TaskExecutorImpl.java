@@ -8,6 +8,7 @@ public class TaskExecutorImpl implements TaskExecutor
 {
 
     private final BlockingFifoQueue blockingFifo;
+    
     private Thread[] runnerPool;
 
     public TaskExecutorImpl(int threadPoolSize)
