@@ -17,11 +17,7 @@ public class TaskRunner implements Runnable {
 	public void run() {
     while(true) {
 		  Task newTask = blockingFifo.take();
-      try {
-		    newTask.execute();
-      } catch(InterruptedException e) {
-        e.printStackTrace();
-      }
+      newTask.execute();
 
     }
   }

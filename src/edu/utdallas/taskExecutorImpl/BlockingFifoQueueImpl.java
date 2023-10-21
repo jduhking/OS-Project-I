@@ -23,7 +23,7 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
     // if buffer is full, wait for take
     // while loop prevents a race condition as waiting thread must recheck
     // BUFFER_SIZE after notified by take()
-	synchronized(notFull) {
+	//synchronized(notFull) {
 		try {
 		    	  
 		  while(count == BUFFER_SIZE) 
@@ -40,16 +40,16 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 		buffer[nextIn] = newTask; 
 		nextIn = (nextIn + 1) % BUFFER_SIZE;
 		count++;
-	}
+	//}
 	
-	synchronized(notEmpty) { // thread must own notEmpty to execute notEmpty.notify()
+	//synchronized(notEmpty) { // thread must own notEmpty to execute notEmpty.notify()
 		try {
 			notEmpty.notify(); // signal waiting take threads
 			System.out.println("notEmpty.notify() successful");	// for debugging, remove before submission
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
+	//}
 	 
    
     }
@@ -58,7 +58,7 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
   // takes task from front of FIFO, returns the task
 	@Override
 	public Task take() {
-    synchronized(notEmpty) { // only one thread can take at a time,
+    //synchronized(notEmpty) { // only one thread can take at a time,
 	                         // prevents race condition
     	Task result = null;
     	try {
@@ -79,8 +79,8 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 	      } catch(InterruptedException e) {
 	    	  e.printStackTrace();
 	      }
-    }
-    synchronized(notFull) {	// thread must own notFull to execute notFull.notify();
+    //}
+    //synchronized(notFull) {	// thread must own notFull to execute notFull.notify();
     	try {
     		notFull.notify(); // signal waiting put threads
 		    System.out.println("notFull.notify() successful"); // for debugging, remove before submission
@@ -89,7 +89,7 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
     	}
     }
 	    return result;
-	  }
+	  //}
 
   }
     public int GetCount() { return count; }
