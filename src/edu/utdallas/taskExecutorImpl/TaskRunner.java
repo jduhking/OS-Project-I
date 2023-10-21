@@ -15,25 +15,12 @@ public class TaskRunner implements Runnable {
 	@Override
 	public void run() {
 		while(true) {
-            while(blockingFifo.GetCount() <= 0) {
-            	try {
-					wait();
-				} catch (InterruptedException e) {
-					return;
-				}
-            }
+			System.out.println("Trying to run a task");
             Task newTask = blockingFifo.take();
-
-            if(newTask != null) {
-                try {
-                    newTask.execute();
-                }
-                catch(Throwable th) {
-                	return;
-                }
+            newTask.execute();
+          
             }
         }
-    }
 
 }
 		

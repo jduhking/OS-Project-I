@@ -9,7 +9,7 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 	private Task[] buffer;
     private int nextIn, nextOut;
     private int count;
-    private Object notFull, notEmpty; // locks used for synchronization
+    private Object notFull = new Object(), notEmpty = new Object(); // locks used for synchronization
 
 	public BlockingFifoQueueImpl(int bufferSize) {
 		if(bufferSize >= 100) { // buffer size cannot exceed 100
@@ -28,8 +28,6 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
     // a sychronized block is not inculded as it is alread included in
     // TaskExecutorImpl
 	synchronized(this) {
-	    if(count == BUFFER_SIZE)
-	    {
 		      try {
 		    	  
 		    	while(count == BUFFER_SIZE)
@@ -39,12 +37,14 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 			    nextIn = (nextIn + 1) % BUFFER_SIZE;
 			    count++;
 	
-			    	notify(); // signal waiting take threads
+			    notify(); // signal waiting take threads
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				return;
 			}
-	    }
+	    
+	    for(int i = 0; i < BUFFER_SIZE; i++)
+	    	System.out.println(buffer[i] == null ? "null" : buffer[i].getName());
 	}
     
     // puts task at end of FIFO, increments nextIn and count
@@ -63,11 +63,11 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 		      {
 		        wait();
 		      }
-		    
-		      // sets return value for task, incremtns nextOut, decrements count 
+		      
 		      Task result = buffer[nextOut];
+		      buffer[nextOut] = null;
 		      nextOut = (nextOut + 1) % BUFFER_SIZE;
-		      count --;
+		      count--;
 	
 		      notify(); // signal waiting put threads
 		      return result;
