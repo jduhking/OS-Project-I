@@ -24,12 +24,8 @@ public class TaskExecutorImpl implements TaskExecutor
     }
 
     public void addTask(Task task)
-    {
-       synchronized(this) {
-
+    {	  
     	   blockingFifo.put(task);
-    	   //System.out.println("task put successful");
-       }
     }
     
 

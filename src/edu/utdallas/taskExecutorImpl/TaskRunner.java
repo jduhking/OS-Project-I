@@ -12,14 +12,17 @@ public class TaskRunner implements Runnable {
 		blockingFifo = fifo;
 		name = threadName;
 	}
-
 	@Override
 	public void run() {
-    while(true) {
-		  Task newTask = blockingFifo.take();
-      newTask.execute();
+		while(true) {
+//			System.out.println("Trying to run a task");
+            Task newTask = blockingFifo.take();
+            if(newTask != null) {
+            	newTask.execute();
+            }
+          
+            }
+        }
 
-    }
-  }
 }
-		
+	
