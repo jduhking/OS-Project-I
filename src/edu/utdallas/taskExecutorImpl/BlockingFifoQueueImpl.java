@@ -24,23 +24,22 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
     // while loop prevents a race condition as waiting thread must recheck
     // BUFFER_SIZE after notified by take()
 	synchronized(notFull) {
-		    try {
+		try {
 		    	  
-		    	while(count == BUFFER_SIZE) 
-		    	{
-		    		notFull.wait();
-		    		System.out.println("notFull.wait() successful"); // for debugging, remove before submission
-		    	}
+		  while(count == BUFFER_SIZE) 
+		  {
+		    notFull.wait();
+	      System.out.println("notFull.wait() successful"); // for debugging, remove before submission
+		  }
 	
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 				
-		    // puts task at end of FIFO, increments nextIn and count
-		    buffer[nextIn] = newTask; 
-			nextIn = (nextIn + 1) % BUFFER_SIZE;
-			count++;
+		 // puts task at end of FIFO, increments nextIn and count
+		buffer[nextIn] = newTask; 
+		nextIn = (nextIn + 1) % BUFFER_SIZE;
+		count++;
 	}
 	
 	synchronized(notEmpty) { // thread must own notEmpty to execute notEmpty.notify()
@@ -89,6 +88,9 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
     	}
     }
 	    return result;
-	    }	
+	  }
+
   }
+    public int GetCount() { return count; }
+    public int GetBufferSize() { return BUFFER_SIZE; }
 }

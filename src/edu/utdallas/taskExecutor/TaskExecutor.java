@@ -1,7 +1,7 @@
 package edu.utdallas.taskExecutor;
 
-
-public interface TaskExecutor
-{
-	void addTask(Task task);
+public interface TaskExecutor {
+	 	
+	    public void addTask(Task task); // add a task to the be executed
+	 
 }

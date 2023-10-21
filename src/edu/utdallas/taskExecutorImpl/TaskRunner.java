@@ -5,26 +5,18 @@ import edu.utdallas.taskExecutor.Task;
 
 public class TaskRunner implements Runnable {
 
-	private final BlockingFifoQueue blockingFifoQueue;
+	private final BlockingFifoQueue blockingFifo;
 	private final String name;
 	
-	public TaskRunner(BlockingFifoQueue blockingFifo, String threadName) {
-		blockingFifoQueue = blockingFifo;
+	public TaskRunner(BlockingFifoQueue fifo, String threadName) {
+		blockingFifo = fifo;
 		name = threadName;
 	}
-	
+
 	@Override
 	public void run() {
-		while(true) {
-            Task newTask = blockingFifoQueue.take();
-            try {
-            	newTask.execute();
-            	//System.out.println("task runner " + name + " successful");
-            }
-            catch(Throwable th) {
-            	// TODO 
-            }
-        }
+		Task newTask = blockingFifo.take();
+		newTask.execute();
     }
-
 }
+		
