@@ -43,8 +43,8 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 				return;
 			}
 	    
-	    for(int i = 0; i < BUFFER_SIZE; i++)
-	    	System.out.println(buffer[i] == null ? "null" : buffer[i].getName());
+//	    for(int i = 0; i < BUFFER_SIZE; i++)
+//	    	System.out.println(buffer[i] == null ? "null" : buffer[i].getName());
 	}
     
     // puts task at end of FIFO, increments nextIn and count

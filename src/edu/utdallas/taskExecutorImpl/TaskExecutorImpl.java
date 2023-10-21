@@ -26,15 +26,8 @@ public class TaskExecutorImpl implements TaskExecutor
     public void addTask(Task task)
     {
        synchronized(this) {
-    	   while(blockingFifo.GetCount() >= blockingFifo.GetBufferSize()) {
-    		   try {
-    		   wait();
-    		   } catch(Exception e) {
-    			   return;
-    		   }
-    	   }
+    	  
     	   blockingFifo.put(task);
-    	   notifyAll();
        }
     }
     

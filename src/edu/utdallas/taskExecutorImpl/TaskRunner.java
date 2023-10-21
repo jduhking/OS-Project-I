@@ -15,7 +15,7 @@ public class TaskRunner implements Runnable {
 	@Override
 	public void run() {
 		while(true) {
-			System.out.println("Trying to run a task");
+//			System.out.println("Trying to run a task");
             Task newTask = blockingFifo.take();
             newTask.execute();
           
