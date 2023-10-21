@@ -79,6 +79,7 @@ public class BlockingFifoQueueImpl implements BlockingFifoQueue {
 	      } catch(InterruptedException e) {
 	    	  e.printStackTrace();
 	      }
+    }
     synchronized(notFull) {	// thread must own notFull to execute notFull.notify();
     	try {
     		notFull.notify(); // signal waiting put threads
